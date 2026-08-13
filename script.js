@@ -1,178 +1,895 @@
-const musicBtn = document.getElementById("musicBtn");
-const audio = document.getElementById("teAmo");
+/* =========================
+   RESET
+========================= */
 
-const startBtn = document.getElementById("startBtn");
-const introScreen = document.getElementById("introScreen");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0b090c;
+  color: #f7edf2;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 
-// =========================
-// MUSIC SETUP
-// =========================
+/* =========================
+   FLOATING HEARTS
+========================= */
 
-audio.src = "assets/te-amo-instrumental.mp3";
-audio.loop = true;
-audio.preload = "auto";
+#hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
 
+.heart {
+  position: absolute;
+  bottom: -40px;
+  color: rgba(217, 130, 170, 0.55);
+  animation: floatHeart linear forwards;
+}
 
-// =========================
-// START BUTTON
-// =========================
+@keyframes floatHeart {
 
-startBtn.addEventListener("click", async () => {
-
-  /*
-    The music starts here because this click is
-    a direct user interaction.
-
-    This gives the browser permission to play audio.
-  */
-
-  try {
-
-    await audio.play();
-
-    musicBtn.textContent = "❚❚ Pause Te Amo";
-
-  } catch (err) {
-
-    console.log("Music could not autoplay:", err);
-
-    musicBtn.textContent = "♪ Play Te Amo";
-
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
   }
 
-
-  // Fade away the intro screen
-  introScreen.classList.add("hidden");
-
-
-  // Start the actual website at the very top
-  window.scrollTo({
-    top: 0,
-    behavior: "instant"
-  });
-
-});
-
-
-// =========================
-// MUSIC BUTTON
-// =========================
-
-musicBtn.addEventListener("click", async () => {
-
-  try {
-
-    if (audio.paused) {
-
-      await audio.play();
-
-      musicBtn.textContent = "❚❚ Pause Te Amo";
-
-    } else {
-
-      audio.pause();
-
-      musicBtn.textContent = "♪ Play Te Amo";
-
-    }
-
-  } catch (err) {
-
-    console.log("Music error:", err);
-
-    musicBtn.textContent = "♪ Tap to play Te Amo";
-
+  10% {
+    opacity: 1;
   }
 
-});
-
-
-// Keep button text synced with music
-
-audio.addEventListener("play", () => {
-
-  musicBtn.textContent = "❚❚ Pause Te Amo";
-
-});
-
-
-audio.addEventListener("pause", () => {
-
-  musicBtn.textContent = "♪ Play Te Amo";
-
-});
-
-
-// =========================
-// SCROLL REVEAL
-// =========================
-
-const observer = new IntersectionObserver(
-
-  entries => {
-
-    entries.forEach(entry => {
-
-      if (entry.isIntersecting) {
-
-        entry.target.classList.add("visible");
-
-      }
-
-    });
-
-  },
-
-  {
-    threshold: 0.12
+  to {
+    transform: translateY(-110vh) rotate(25deg);
+    opacity: 0;
   }
-
-);
-
-
-document
-  .querySelectorAll(".reveal")
-  .forEach(element => {
-
-    observer.observe(element);
-
-  });
-
-
-// =========================
-// FLOATING HEARTS
-// =========================
-
-function heart() {
-
-  const h = document.createElement("span");
-
-  h.className = "heart";
-
-  h.textContent =
-    Math.random() > 0.35 ? "♡" : "♥";
-
-  h.style.left =
-    Math.random() * 100 + "vw";
-
-  h.style.fontSize =
-    12 + Math.random() * 22 + "px";
-
-  h.style.animationDuration =
-    4 + Math.random() * 4 + "s";
-
-  document
-    .getElementById("hearts")
-    .appendChild(h);
-
-  setTimeout(() => {
-
-    h.remove();
-
-  }, 8000);
 
 }
 
 
-setInterval(heart, 1100);
+/* =========================
+   INTRO / LANDING PAGE
+========================= */
+
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(180, 75, 120, 0.16),
+      transparent 38%
+    ),
+    #0b090c;
+
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    opacity 1s ease,
+    visibility 1s ease;
+}
+
+.intro-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-content {
+  width: min(90%, 650px);
+  padding: 40px 20px;
+}
+
+.intro-heart {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 76px;
+  line-height: 1;
+
+  color: #d982aa;
+
+  margin-bottom: 18px;
+
+  animation: introHeart 2.5s ease-in-out infinite;
+}
+
+@keyframes introHeart {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+}
+
+.intro-eyebrow {
+  margin-bottom: 18px;
+
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+
+  color: #d982aa;
+}
+
+.intro-content h1 {
+  font-family: "Parisienne", cursive;
+
+  font-size: clamp(75px, 11vw, 125px);
+  font-weight: 400;
+  line-height: 0.95;
+
+  color: #f7edf2;
+}
+
+.intro-message {
+  margin: 30px 0 38px;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: 23px;
+  line-height: 1.55;
+
+  color: rgba(247, 237, 242, 0.75);
+}
+
+.start-button {
+  border: 1px solid rgba(217, 130, 170, 0.75);
+  border-radius: 999px;
+
+  background: transparent;
+
+  padding: 15px 34px;
+
+  color: #f7edf2;
+
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.start-button span {
+  margin-left: 8px;
+  color: #d982aa;
+}
+
+.start-button:hover {
+  background: rgba(217, 130, 170, 0.12);
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 35px rgba(217, 130, 170, 0.14);
+}
+
+
+/* =========================
+   MUSIC BUTTON
+========================= */
+
+.music-btn {
+  position: fixed;
+
+  top: 24px;
+  right: 28px;
+
+  z-index: 1000;
+
+  border: 1px solid rgba(217, 130, 170, 0.7);
+  border-radius: 999px;
+
+  background: rgba(11, 9, 12, 0.78);
+
+  backdrop-filter: blur(12px);
+
+  padding: 12px 20px;
+
+  color: #f7edf2;
+
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.music-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(217, 130, 170, 0.12);
+}
+
+
+/* =========================
+   GENERAL
+========================= */
+
+.section {
+  position: relative;
+
+  min-height: 100vh;
+
+  padding: 120px 8vw;
+}
+
+.eyebrow {
+  margin-bottom: 18px;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: 4px;
+  text-transform: uppercase;
+
+  color: #d982aa;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Cormorant Garamond", serif;
+}
+
+h2 {
+  font-size: clamp(45px, 6vw, 80px);
+  font-weight: 500;
+  line-height: 1;
+}
+
+h2 em {
+  font-weight: 400;
+}
+
+p {
+  line-height: 1.8;
+}
+
+.accent {
+  color: #d982aa;
+}
+
+.lead {
+  max-width: 720px;
+
+  margin: 22px auto 0;
+
+  font-size: 17px;
+
+  color: rgba(247, 237, 242, 0.72);
+}
+
+
+/* =========================
+   REVEAL ANIMATION
+========================= */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(25px);
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+
+  background-image: url("assets/hero.jpg");
+
+  background-size: cover;
+
+  background-position: center center;
+
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8, 6, 8, 0.86) 0%,
+      rgba(8, 6, 8, 0.62) 45%,
+      rgba(8, 6, 8, 0.38) 100%
+    );
+
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+
+  z-index: 1;
+
+  max-width: 800px;
+}
+
+.hero h1 {
+  font-size: clamp(70px, 10vw, 145px);
+
+  font-weight: 500;
+
+  line-height: 0.86;
+
+  margin-bottom: 40px;
+}
+
+.hero h1 em {
+  color: #d982aa;
+
+  font-family: "Parisienne", cursive;
+
+  font-weight: 400;
+}
+
+.hero h1 span {
+  color: #f7edf2;
+
+  font-size: 0.7em;
+}
+
+.subtitle {
+  margin-bottom: 35px;
+
+  font-size: 18px;
+
+  line-height: 1.8;
+
+  color: rgba(247, 237, 242, 0.78);
+}
+
+.button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  border: 1px solid rgba(217, 130, 170, 0.7);
+
+  border-radius: 999px;
+
+  padding: 15px 24px;
+
+  font-size: 14px;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.button:hover {
+  background: rgba(217, 130, 170, 0.12);
+
+  transform: translateY(-2px);
+}
+
+.scroll {
+  position: absolute;
+
+  bottom: 30px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  font-size: 11px;
+
+  letter-spacing: 3px;
+
+  color: rgba(247, 237, 242, 0.55);
+}
+
+
+/* =========================
+   BRAHMA BREWS
+========================= */
+
+.story {
+  background: #0d0a0e;
+}
+
+.two-col {
+  max-width: 1250px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 80px;
+
+  align-items: center;
+}
+
+.photo-card {
+  position: relative;
+}
+
+.photo-card .photo {
+  height: 650px;
+
+  overflow: hidden;
+
+  border-radius: 4px;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.photo-label {
+  display: block;
+
+  margin-top: 14px;
+
+  font-size: 11px;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  color: rgba(247, 237, 242, 0.5);
+}
+
+.copy {
+  max-width: 580px;
+}
+
+.copy h2 {
+  margin-bottom: 30px;
+}
+
+.copy p {
+  margin-bottom: 18px;
+
+  color: rgba(247, 237, 242, 0.7);
+}
+
+
+/* =========================
+   DARK SECTIONS
+========================= */
+
+.dark {
+  background: #09080a;
+
+  text-align: center;
+}
+
+.center {
+  max-width: 900px;
+
+  margin: 0 auto 60px;
+
+  text-align: center;
+}
+
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery {
+  max-width: 1100px;
+
+  margin: 50px auto 0;
+
+  display: grid;
+
+  gap: 30px;
+}
+
+.gallery .photo {
+  width: 100%;
+
+  overflow: hidden;
+
+  border-radius: 5px;
+
+  background: #171218;
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.6s ease;
+}
+
+.gallery .photo:hover img {
+  transform: scale(1.02);
+}
+
+.drives-gallery {
+  max-width: 600px;
+}
+
+.drives-gallery .photo {
+  height: 600px;
+}
+
+.caption {
+  margin-top: 28px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  color: rgba(247, 237, 242, 0.5);
+}
+
+
+/* =========================
+   CONCERT
+========================= */
+
+.concert {
+  background: #0d0a0e;
+}
+
+.concert-card {
+  max-width: 1200px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 1.1fr 0.9fr;
+
+  gap: 70px;
+
+  align-items: center;
+}
+
+.concert-photo {
+  height: 700px;
+
+  overflow: hidden;
+
+  border-radius: 5px;
+}
+
+.concert-photo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.concert-copy h2 {
+  margin-bottom: 28px;
+}
+
+.concert-copy p {
+  margin-bottom: 18px;
+
+  color: rgba(247, 237, 242, 0.7);
+}
+
+
+/* =========================
+   LITTLE THINGS
+========================= */
+
+.memories {
+  background: #09080a;
+}
+
+.memories-gallery {
+  max-width: 1100px;
+
+  grid-template-columns: 1fr 1fr;
+}
+
+.memories-gallery .photo {
+  height: 650px;
+}
+
+
+/* =========================
+   LITTLE PIECES OF US
+========================= */
+
+.pieces {
+  background: #0d0a0e;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.pieces-card {
+  max-width: 1150px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 0.9fr 1.1fr;
+
+  gap: 80px;
+
+  align-items: center;
+}
+
+.pieces-photo {
+  max-width: 500px;
+
+  margin: auto;
+
+  padding: 18px;
+
+  background: #f1e8e5;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.35);
+
+  transform: rotate(-2deg);
+}
+
+.pieces-photo img {
+  width: 100%;
+
+  height: auto;
+
+  object-fit: contain;
+}
+
+.pieces-copy {
+  max-width: 600px;
+}
+
+.pieces-copy h2 {
+  margin-bottom: 30px;
+
+  font-size: clamp(42px, 5vw, 70px);
+}
+
+.pieces-copy p {
+  margin-bottom: 18px;
+
+  color: rgba(247, 237, 242, 0.7);
+}
+
+
+/* =========================
+   BIRTHDAY LETTER
+========================= */
+
+.letter {
+  background: #09080a;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.letter-paper {
+  max-width: 800px;
+
+  padding: 70px 75px;
+
+  background: #f1e8e5;
+
+  color: #30252a;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+.letter-paper .eyebrow {
+  color: #a65c7d;
+}
+
+.letter-paper h2 {
+  margin-bottom: 35px;
+}
+
+.letter-paper p {
+  margin-bottom: 22px;
+
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 20px;
+
+  line-height: 1.7;
+}
+
+.letter-paper .signature {
+  margin-top: 40px;
+
+  font-size: 28px;
+
+  color: #a65c7d;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  padding: 45px 20px;
+
+  text-align: center;
+
+  background: #070608;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+
+  color: rgba(247, 237, 242, 0.4);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+  .section {
+    padding: 90px 7vw;
+  }
+
+  .music-btn {
+    top: 15px;
+    right: 15px;
+
+    padding: 10px 15px;
+
+    font-size: 12px;
+  }
+
+  .hero {
+    background-position: center center;
+  }
+
+  .hero h1 {
+    font-size: clamp(62px, 17vw, 100px);
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+  }
+
+  .photo-card .photo {
+    height: 500px;
+  }
+
+  .concert-card {
+    grid-template-columns: 1fr;
+
+    gap: 45px;
+  }
+
+  .concert-photo {
+    height: 550px;
+  }
+
+  .memories-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .memories-gallery .photo {
+    height: 500px;
+  }
+
+  .pieces-card {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+  }
+
+  .pieces-photo {
+    max-width: 450px;
+  }
+
+  .letter-paper {
+    padding: 45px 30px;
+  }
+
+  .intro-heart {
+    font-size: 60px;
+  }
+
+  .intro-content h1 {
+    font-size: 80px;
+  }
+
+  .intro-message {
+    font-size: 20px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .drives-gallery .photo {
+    height: 500px;
+  }
+
+  .intro-content h1 {
+    font-size: 72px;
+  }
+
+  .pieces-photo {
+    padding: 12px;
+  }
+
+}
