@@ -1,12 +1,63 @@
 const musicBtn = document.getElementById("musicBtn");
 const audio = document.getElementById("teAmo");
 
+const startBtn = document.getElementById("startBtn");
+const introScreen = document.getElementById("introScreen");
 
-/* ================= MUSIC ================= */
+
+// =========================
+// MUSIC SETUP
+// =========================
 
 audio.src = "assets/te-amo-instrumental.mp3";
 audio.loop = true;
 audio.preload = "auto";
+
+
+// =========================
+// START BUTTON
+// =========================
+
+startBtn.addEventListener("click", async () => {
+
+  /*
+    The music starts here because this click is
+    a direct user interaction.
+
+    This gives the browser permission to play audio.
+  */
+
+  try {
+
+    await audio.play();
+
+    musicBtn.textContent = "❚❚ Pause Te Amo";
+
+  } catch (err) {
+
+    console.log("Music could not autoplay:", err);
+
+    musicBtn.textContent = "♪ Play Te Amo";
+
+  }
+
+
+  // Fade away the intro screen
+  introScreen.classList.add("hidden");
+
+
+  // Start the actual website at the very top
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
+
+});
+
+
+// =========================
+// MUSIC BUTTON
+// =========================
 
 musicBtn.addEventListener("click", async () => {
 
@@ -28,6 +79,8 @@ musicBtn.addEventListener("click", async () => {
 
   } catch (err) {
 
+    console.log("Music error:", err);
+
     musicBtn.textContent = "♪ Tap to play Te Amo";
 
   }
@@ -35,17 +88,25 @@ musicBtn.addEventListener("click", async () => {
 });
 
 
+// Keep button text synced with music
+
 audio.addEventListener("play", () => {
+
   musicBtn.textContent = "❚❚ Pause Te Amo";
+
 });
 
 
 audio.addEventListener("pause", () => {
+
   musicBtn.textContent = "♪ Play Te Amo";
+
 });
 
 
-/* ================= SCROLL REVEAL ================= */
+// =========================
+// SCROLL REVEAL
+// =========================
 
 const observer = new IntersectionObserver(
 
@@ -70,12 +131,18 @@ const observer = new IntersectionObserver(
 );
 
 
-document.querySelectorAll(".reveal").forEach(element => {
-  observer.observe(element);
-});
+document
+  .querySelectorAll(".reveal")
+  .forEach(element => {
+
+    observer.observe(element);
+
+  });
 
 
-/* ================= FLOATING HEARTS ================= */
+// =========================
+// FLOATING HEARTS
+// =========================
 
 function heart() {
 
@@ -100,7 +167,9 @@ function heart() {
     .appendChild(h);
 
   setTimeout(() => {
+
     h.remove();
+
   }, 8000);
 
 }
