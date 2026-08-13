@@ -12,11 +12,12 @@
 </head>
 <body>
 <div id="hearts"></div>
+
 <header class="nav">
   <a class="brand" href="#home">For Kittu <span>♡</span></a>
   <nav>
     <a href="#story">Story</a><a href="#drives">Drives</a><a href="#concert">Concert</a>
-    <a href="#six">6 Months</a><a href="#letter">Letter</a><a href="#surprise">Surprise</a>
+    <a href="#memories">Memories</a><a href="#six">6 Months</a><a href="#letter">Letter</a>
   </nav>
   <button id="musicBtn" class="music-btn">♪ Play Te Amo</button>
 </header>
@@ -35,7 +36,10 @@
 
 <section id="story" class="section story">
   <div class="two-col">
-    <div class="photo-card reveal"><div class="photo placeholder">YOUR BRAHMA BREWS PHOTO</div><span class="photo-label">Chapter 01 · Where it began</span></div>
+    <div class="photo-card reveal">
+      <div class="photo"><img src="assets/brahma-brews.jpeg" alt="A memory from Brahma Brews"></div>
+      <span class="photo-label">Chapter 01 · Where it began</span>
+    </div>
     <div class="copy reveal">
       <p class="eyebrow">Brahma Brews · The beginning</p>
       <h2>One random night.<br><em>One very lucky beginning.</em></h2>
@@ -55,16 +59,14 @@
     <p class="lead">They're the random drives. No real destination. No proper plan. Just you, me, some music, and somehow hours disappearing without us noticing.</p>
   </div>
   <div class="gallery">
-    <div class="photo placeholder">DRIVE PHOTO 01</div>
-    <div class="photo tall placeholder">DRIVE PHOTO 02</div>
-    <div class="photo placeholder">DRIVE PHOTO 03</div>
+    <div class="photo"><img src="assets/drive-01.jpeg" alt="A memory from one of our random drives"></div>
   </div>
   <p class="caption">No destination. Still somehow some of my favourite memories. ♡</p>
 </section>
 
 <section id="concert" class="section concert">
   <div class="concert-card reveal">
-    <div class="concert-photo placeholder">YOUR CONCERT PHOTO</div>
+    <div class="concert-photo"><img src="assets/concert-01.jpeg" alt="A concert memory together"></div>
     <div class="concert-copy">
       <p class="eyebrow">Chapter 03 · Us, but louder 🎶</p>
       <h2>One of those nights.</h2>
@@ -73,11 +75,27 @@
       <p class="accent">This was one of them. ❤️</p>
     </div>
   </div>
+  <div class="gallery concert-gallery">
+    <div class="photo"><img src="assets/concert-02.jpeg" alt="Another concert memory together"></div>
+  </div>
+</section>
+
+<section id="memories" class="section memories">
+  <div class="center reveal">
+    <p class="eyebrow">Chapter 04 · The little things</p>
+    <h2>Just <em>us.</em></h2>
+    <p class="lead">Not every memory needs a story. Some are just moments I want to keep.</p>
+  </div>
+  <div class="gallery memories-gallery">
+    <div class="photo"><img src="assets/random-01.jpeg" alt="A random memory together"></div>
+    <div class="photo"><img src="assets/random-02.jpeg" alt="Another random memory together"></div>
+  </div>
+  <p class="caption">The ordinary little moments somehow become the ones I remember most. ♡</p>
 </section>
 
 <section id="six" class="section six">
   <div class="center reveal">
-    <p class="eyebrow">Chapter 04 · Six months</p>
+    <p class="eyebrow">Chapter 05 · Six months</p>
     <h2>Six months of <em>us.</em></h2>
   </div>
   <div class="facts">
@@ -98,7 +116,7 @@
 
 <section id="letter" class="section letter">
   <div class="letter-paper reveal">
-    <p class="eyebrow">Chapter 05 · A letter for you</p>
+    <p class="eyebrow">Chapter 06 · A letter for you</p>
     <h2>Dear Kittu,</h2>
     <p>Happy birthday, you. ❤️</p>
     <p>Six months ago, I couldn't have known how much you would come to mean to me.</p>
@@ -111,28 +129,12 @@
     <p class="signature">Love,<br><em>Golu</em></p>
   </div>
 </section>
-
-<section id="surprise" class="section surprise">
-  <div class="surprise-content reveal">
-    <p class="eyebrow">Chapter 06 · One last thing...</p>
-    <h2>Okay Kittu... 👀</h2>
-    <p>You made it all the way here.</p>
-    <p>So I guess you deserve one last thing.</p>
-    <button class="button" id="revealBtn">Open your surprise ♡</button>
-    <div id="revealBox" class="reveal-box">
-      <div class="gift">🎁</div>
-      <h3>Surprise loading...</h3>
-      <p>I haven't decided what the final surprise is yet.</p>
-      <p>But whatever it is, you're getting it with a lot of love.</p>
-    </div>
-  </div>
-</section>
 </main>
 
 <footer>Made with too much love, questionable driving plans, and bhujia appreciation. · Golu ♡</footer>
 
 <audio id="teAmo" preload="none">
-  <!-- We cannot redistribute the copyrighted song file. The button below opens the official video. -->
+  <!-- Keep your existing music setup here. Add your instrumental file when ready. -->
 </audio>
 <script src="script.js"></script>
 </body>
