@@ -575,6 +575,12 @@ p {
   height: 600px;
 }
 
+.drives-gallery img {
+  object-fit: contain;
+  object-position: center center;
+  background: #171218;
+}
+
 .caption {
   margin-top: 28px;
 
