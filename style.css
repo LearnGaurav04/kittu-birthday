@@ -576,9 +576,8 @@ p {
 }
 
 .drives-gallery img {
-  object-fit: contain;
-  object-position: center center;
-  background: #171218;
+  object-fit: cover;
+  object-position: center 25%;
 }
 
 .caption {
